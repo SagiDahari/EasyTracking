@@ -1,4 +1,4 @@
-### Easy Tracking 
+## Easy Tracking 
 # Description
 EasyTracking is a calorie counting application.
 Inside the app, you can brwose through different types of foods and add them to a meal in your personal "MyMeals"page.
