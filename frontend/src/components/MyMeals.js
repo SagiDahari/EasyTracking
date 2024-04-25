@@ -11,7 +11,7 @@ function MyMeals() {
 
   const handleClick = () => {
     console.log("button clicked");
-    navigate("/home");
+    navigate("/");
   };
 
   

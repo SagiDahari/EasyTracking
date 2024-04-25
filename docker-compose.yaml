@@ -1,6 +1,6 @@
 services:
   backend:
-    build: .
+    build: ./backend
     container_name: backend_c
     ports: 
       - '8000:8000'
@@ -19,6 +19,11 @@ services:
         POSTGRES_PASSWORD: '12345678'
       ports:
         - "5432:5432"
+  frontend:
+    build: ./frontend
+    container_name: frontend_c
+    ports:
+      - '3000:3000'
       
 
 
