@@ -1,0 +1,31 @@
+services:
+  backend:
+    build: .
+    container_name: backend_c
+    ports: 
+      - '8000:8000'
+    volumes:
+      - '~/myapp/backend:/myapp'
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://user1:12345678@postgres:5432/mydatabase
+  postgres:
+      image: postgres:latest
+      container_name: database_c
+      environment:
+        POSTGRES_DB: mydatabase
+        POSTGRES_USER: user1
+        POSTGRES_PASSWORD: '12345678'
+      ports:
+        - "5432:5432"
+      
+
+
+
+
+
+
+
+
+
