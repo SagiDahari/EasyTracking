@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function TableRow({ rowData, addToMeal }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // function to know whether the add to meal button is clicked or not and open 3 different buttons.
   const toggleButtons = () => {
     setIsOpen(!isOpen);
   };
@@ -52,6 +53,7 @@ function TableRow({ rowData, addToMeal }) {
 function FoodTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [message, setMessage] = useState("");
 
   const handleSearch = async () => {
     if (searchTerm.trim() === "") {
@@ -65,9 +67,13 @@ function FoodTable() {
         if (response.ok) {
           const data = await response.json();
           setSearchResults(data);
+          setMessage(""); // Clear previous message
+        } else if (response.status === 400) {
+          setMessage("Food not found");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        setMessage("An error occurred while searching");
       }
     }
   };
@@ -98,17 +104,21 @@ function FoodTable() {
         }
       );
       if (response.ok) {
-        console.log("Food added to meal successfully");
+        setMessage("Food added successfully");
+      } else if (response.status === 409) {
+        setMessage("Food already added to meal");
       } else {
-        console.error("Failed to add food to meal");
+        setMessage("Failed to add food to meal");
       }
     } catch (error) {
       console.error("Error adding food to meal:", error);
+      setMessage("An error occurred while adding food to meal");
     }
   };
 
   return (
     <div className="container mt-4">
+      {message && <div className="alert alert-info">{message}</div>}
       <div className="input-group mb-3">
         <input
           type="text"

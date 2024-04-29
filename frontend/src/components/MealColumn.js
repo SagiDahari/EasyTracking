@@ -15,7 +15,7 @@ function MealColumn({
       [foodName]: newQuantity,
     }));
   };
-
+  // handling the UpdateQuantity button.
   const handleUpdateQuantity = async (foodName) => {
     const newQuantity = updatedQuantities[foodName];
     await onUpdateQuantity(foodName, newQuantity);
@@ -30,11 +30,10 @@ function MealColumn({
     let totalFats = 0;
 
     foods.forEach((food) => {
-      const quantity = updatedQuantities[food["food_name"]] || food["quantity"];
-      totalCalories += (food["calories_100g"] / 100) * quantity;
-      totalProteins += (food["proteins"] / 100) * quantity;
-      totalCarbs += (food["carbohydrates"] / 100) * quantity;
-      totalFats += (food["fats"] / 100) * quantity;
+      totalCalories += food["calories_100g"];
+      totalProteins += food["proteins"];
+      totalCarbs += food["carbohydrates"];
+      totalFats += food["fats"];
     });
 
     return {

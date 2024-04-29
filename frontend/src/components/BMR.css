@@ -1,0 +1,58 @@
+.bmr-container {
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bmr-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  
+  
+  .bmr-label {
+    font-size: 14px;
+  }
+  
+  .bmr-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+ 
+  
+  .bmr-radio-label {
+    margin-right: 8px;
+    font-size: 14px;
+  }
+  
+ 
+  
+  .bmr-button {
+    width: 100%;
+    padding: 8px;
+    background-color: #1a1c1e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .bmr-button:hover {
+    background-color: #34383b;
+  }
+  
+  .bmr-result {
+    margin-top: 15px;
+    font-size: 16px;
+    text-align: center;
+  }

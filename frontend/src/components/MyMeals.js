@@ -2,20 +2,19 @@ import React, { useState } from "react";
 import MealColumn from "./MealColumn";
 import { useNavigate } from "react-router-dom";
 
+import "./MyMeals.css";
+
 function MyMeals() {
   const [breakfastFoods, setBreakfastFoods] = useState([]);
   const [lunchFoods, setLunchFoods] = useState([]);
   const [dinnerFoods, setDinnerFoods] = useState([]);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // for navigating to homepage.
 
-  const handleClick = () => {
-    console.log("button clicked");
+  const navigateToSearchPage = () => {
     navigate("/");
   };
-
-  
-
+  // function for fetching the meals from the backend service (database).
   const fetchFoods = async (meal_name) => {
     try {
       const response = await fetch(`http://localhost:8000/meals/${meal_name}`);
@@ -37,9 +36,6 @@ function MyMeals() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    //console.log(breakfastFoods);
-    //console.log(lunchFoods);
-    //console.log(dinnerFoods);
   };
 
   // Function to remove a food item from the column
@@ -99,19 +95,42 @@ function MyMeals() {
       console.error("Error changing the quantity:", error);
     }
   };
+  // function for calculating the total calories of the day.
+  const calculateTotalCaloriesOfDay = () => {
+    let totalCals = 0;
+    let totalProteins = 0;
+    let totalCarbs = 0;
+    let totalFats = 0;
+    [breakfastFoods, lunchFoods, dinnerFoods].forEach((foods) => {
+      totalCals += foods.reduce((acc, food) => acc + food.calories_100g, 0);
+      totalProteins += foods.reduce((acc, food) => acc + food.proteins, 0);
+      totalCarbs += foods.reduce((acc, food) => acc + food.carbohydrates, 0);
+      totalFats += foods.reduce((acc, food) => acc + food.fats, 0);
+    });
+    return {
+      totalCals: totalCals.toFixed(2),
+      totalProteins: totalProteins.toFixed(2),
+      totalCarbs: totalCarbs.toFixed(2),
+      totalFats: totalFats.toFixed(2),
+    };
+  };
+
+  const { totalCals, totalProteins, totalCarbs, totalFats } =
+    calculateTotalCaloriesOfDay(); 
 
   return (
-    <div>
-      <h1 className="text-center">My Meals</h1>
+    <div className="my-meals-container">
       <div className="col-4">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleClick}
-          >
-            Back To Search
-          </button>
-        </div>
+        <button
+          type="button"
+          className="btn btn-dark"
+          onClick={navigateToSearchPage}
+        >
+          Back To Search
+        </button>
+      </div>
+      <h1 className="text-center">My Meals</h1>
+
       <div className="row mt-5 text-center">
         <div className="col">
           <MealColumn
@@ -146,6 +165,12 @@ function MyMeals() {
             }
           />
         </div>
+      </div>
+      <div className="total-calories">
+        <h2>Total Calories of the Day: {totalCals}</h2>
+        <h3>Total Proteins of the Day: {totalProteins}</h3>
+        <h3>Total Carbohydrates of the Day: {totalCarbs}</h3>
+        <h3>Total Fats of the Day: {totalFats}</h3>
       </div>
     </div>
   );

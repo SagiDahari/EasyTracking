@@ -1,12 +1,12 @@
 import FoodTable from "./Searchbar";
+import BMR from "./BMR";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
 function Home() {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    console.log("button clicked");
+  const navigateToMyMeals = () => {
     navigate("/mymeals");
   };
 
@@ -14,18 +14,21 @@ function Home() {
     <div className="container">
       <div className="row mt-2">
         <div className="col-4">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleClick}
-          >
+          <button type="button" className="btn btn-dark" onClick={navigateToMyMeals}>
             Go To MyMeals
           </button>
         </div>
 
         <div className="row mt-5">
           <div className="col-4" />
-          <h1 className="col">Welcome to Easy Tracking!</h1>
+          <h1 className="text-center">Welcome to Easy Tracking!</h1>
+          <img
+            src="diet.svg"
+            alt="Meal Icon"
+            className="icon"
+            width="300px"
+            height="150px"
+          />
         </div>
         <div className="row mt-5 text-center">
           <p>
@@ -38,7 +41,12 @@ function Home() {
           </p>
         </div>
         <div className="row mt-5">
-          <FoodTable />
+          <div className="col-3">
+            <BMR />
+          </div>
+          <div className="col-9">
+            <FoodTable />
+          </div>
         </div>
       </div>
     </div>
