@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MealColumn from "./MealColumn";
 import { useNavigate } from "react-router-dom";
 
