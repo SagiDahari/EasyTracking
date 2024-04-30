@@ -25,21 +25,30 @@ function TableRow({ rowData, addToMeal }) {
             <button
               className="btn btn-secondary"
               type="button"
-              onClick={() => addToMeal(rowData, "breakfast")}
+              onClick={() => {
+                addToMeal(rowData, "breakfast");
+                toggleButtons();
+              }}
             >
               Breakfast
             </button>
             <button
               className="btn btn-secondary"
               type="button"
-              onClick={() => addToMeal(rowData, "lunch")}
+              onClick={() => {
+                addToMeal(rowData, "lunch");
+                toggleButtons();
+              }}
             >
               Lunch
             </button>
             <button
               className="btn btn-secondary"
               type="button"
-              onClick={() => addToMeal(rowData, "dinner")}
+              onClick={() => {
+                addToMeal(rowData, "dinner");
+                toggleButtons();
+              }}
             >
               Dinner
             </button>
@@ -67,13 +76,19 @@ function FoodTable() {
         if (response.ok) {
           const data = await response.json();
           setSearchResults(data);
-          setMessage(""); // Clear previous message
+          setMessage(null); // Clear previous message
         } else if (response.status === 400) {
           setMessage("Food not found");
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
         setMessage("An error occurred while searching");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
       }
     }
   };
@@ -105,14 +120,26 @@ function FoodTable() {
       );
       if (response.ok) {
         setMessage("Food added successfully");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
       } else if (response.status === 409) {
         setMessage("Food already added to meal");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
       } else {
         setMessage("Failed to add food to meal");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
       }
     } catch (error) {
       console.error("Error adding food to meal:", error);
       setMessage("An error occurred while adding food to meal");
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     }
   };
 

@@ -6,7 +6,7 @@ import httpx
 import models
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
-import json
+
 
 
 app = FastAPI()
@@ -171,7 +171,7 @@ async def getMeal(meal_name: str, db: db_dependancy):
         .filter(models.MealFoodItem.meal_name == meal_name)
         .all()
     )
-    if  len(meal) == 0 :
+    if len(meal) == 0:
         raise HTTPException(status_code=204, detail=f"{meal_name}, is empty")
     else:
         return meal
@@ -200,20 +200,44 @@ def deleteFoodFromMeal(meal_name: str, food_name: str, db: db_dependancy):
     db.delete(db_food)
     db.commit()
 
+
 # updating the quantity of a food.
 @app.put("/meals/food/{food_name}", status_code=status.HTTP_200_OK)
-async def updateQuantity(meal_name: str, food_name: str, newQuantity: int, db: db_dependancy):
-    db_food_meal = (
-        db.query(models.MealFoodItem)
-        .filter(models.MealFoodItem.food_name == food_name)
-        .filter(models.MealFoodItem.meal_name == meal_name).first()
-    )
-    if db_food_meal is None:
-        raise HTTPException(status_code=400,detail='food is not in the database')
-    db_food = db.query(models.FoodItem).filter(models.FoodItem.id == models.MealFoodItem.food_id).first()
-    db_food_meal.quantity = newQuantity
-    db_food_meal.calories_100g = round(db_food.calories_100g*(newQuantity/100),2)
-    db_food_meal.proteins = round(db_food.proteins*(newQuantity/100),2)
-    db_food_meal.carbohydrates = round(db_food.carbohydrates*(newQuantity/100),2)
-    db_food_meal.fats = round(db_food.fats*(newQuantity/100),2)
-    db.commit()
+async def updateQuantity(
+    meal_name: str, food_name: str, newQuantity: int, db: db_dependancy
+):
+    try:
+        db_food_meal = (
+            db.query(models.MealFoodItem)
+            .filter(models.MealFoodItem.food_name == food_name)
+            .filter(models.MealFoodItem.meal_name == meal_name)
+            .first()
+        )
+        if not db_food_meal:
+            raise HTTPException(status_code=400, detail="food is not in the database")
+        else:
+            db_food = (
+                db.query(models.FoodItem)
+                .filter(models.FoodItem.name == db_food_meal.food_name)
+                .first()
+            )
+            db_food_meal.quantity = newQuantity
+            db_food_meal.calories_100g = round(
+                db_food.calories_100g * (newQuantity / 100), 2
+            )
+            db_food_meal.proteins = round(db_food.proteins * (newQuantity / 100), 2)
+            db_food_meal.carbohydrates = round(
+                db_food.carbohydrates * (newQuantity / 100), 2
+            )
+            db_food_meal.fats = round(db_food.fats * (newQuantity / 100), 2)
+            db.commit()
+
+    except Exception as e:
+        print(f"Error updating quantity: {e}")
+
+        db.rollback()
+
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update quantity. Please try again later.",
+        )

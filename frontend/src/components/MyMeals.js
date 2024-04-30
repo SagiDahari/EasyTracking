@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MealColumn from "./MealColumn";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +14,7 @@ function MyMeals() {
   const navigateToSearchPage = () => {
     navigate("/");
   };
+
   // function for fetching the meals from the backend service (database).
   const fetchFoods = async (meal_name) => {
     try {
@@ -95,6 +96,7 @@ function MyMeals() {
       console.error("Error changing the quantity:", error);
     }
   };
+
   // function for calculating the total calories of the day.
   const calculateTotalCaloriesOfDay = () => {
     let totalCals = 0;
@@ -116,7 +118,7 @@ function MyMeals() {
   };
 
   const { totalCals, totalProteins, totalCarbs, totalFats } =
-    calculateTotalCaloriesOfDay(); 
+    calculateTotalCaloriesOfDay();
 
   return (
     <div className="my-meals-container">
