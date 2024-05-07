@@ -5,3 +5,5 @@ uvicorn==0.28.0
 SQLAlchemy==2.0.28
 cryptography
 psycopg2-binary
+pytest
+pytest-asyncio

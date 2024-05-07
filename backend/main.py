@@ -8,7 +8,6 @@ from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
 
-
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 
@@ -47,7 +46,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"Welcome To EasyTracking API!"}
+    return {"message": "Welcome To EasyTracking API!"}
 
 
 # fetches the food from the external api.
